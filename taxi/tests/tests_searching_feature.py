@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
+from django.urls import reverse
 
 from taxi.forms import ManufacturerNameSearchForm
 from taxi.models import Manufacturer, Car
@@ -62,7 +63,8 @@ class TestSearchForm(TestCase):
         self.c3.drivers.add(self.user3)
 
     def test_manufacturer_search(self):
-        response = self.client.get("/manufacturers/?name=b")
+        url = reverse("taxi:manufacturer-list") + "?name=b"
+        response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         result = response.context["manufacturer_list"]
 
@@ -72,7 +74,8 @@ class TestSearchForm(TestCase):
         self.assertEqual(len(result), 1)
 
     def test_cars_search(self):
-        response = self.client.get("/cars/?model_name=M")
+        url = reverse("taxi:car-list") + "?model_name=M"
+        response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         result = response.context["car_list"]
 
@@ -82,7 +85,8 @@ class TestSearchForm(TestCase):
         self.assertEqual(len(result), 2)
 
     def test_driver_search(self):
-        response = self.client.get("/drivers/?username=I")
+        url = reverse("taxi:driver-list") + "?username=I"
+        response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         result = response.context["driver_list"]
 

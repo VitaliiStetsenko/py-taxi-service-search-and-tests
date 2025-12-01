@@ -46,7 +46,7 @@ class TestModels(TestCase):
         car.drivers.add(driver)
         self.assertEqual(str(car), car.model)
 
-    def test_crate_driver_with_licence_number(self):
+    def test_create_driver_with_licence_number(self):
         driver = Driver.objects.create_user(
             password="test1234",
             username="test username",
