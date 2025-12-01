@@ -7,9 +7,9 @@ from taxi.models import Manufacturer, Car
 
 class TestValidSearchForm(TestCase):
     def test_form_valid(self):
-        form = ManufacturerNameSearchForm(data={"filter": "bmw"})
+        form = ManufacturerNameSearchForm(data={"name": "bmw"})
         self.assertTrue(form.is_valid())
-        self.assertEqual(form.cleaned_data["filter"], "bmw")
+        self.assertEqual(form.cleaned_data["name"], "bmw")
 
     def test_form_empty_valid(self):
         form = ManufacturerNameSearchForm(data={"filter": "audi"})
@@ -62,7 +62,7 @@ class TestSearchForm(TestCase):
         self.c3.drivers.add(self.user3)
 
     def test_manufacturer_search(self):
-        response = self.client.get("/manufacturers/?filter=b")
+        response = self.client.get("/manufacturers/?name=b")
         self.assertEqual(response.status_code, 200)
         result = response.context["manufacturer_list"]
 
@@ -72,7 +72,7 @@ class TestSearchForm(TestCase):
         self.assertEqual(len(result), 1)
 
     def test_cars_search(self):
-        response = self.client.get("/cars/?filter=M")
+        response = self.client.get("/cars/?model_name=M")
         self.assertEqual(response.status_code, 200)
         result = response.context["car_list"]
 
@@ -82,7 +82,7 @@ class TestSearchForm(TestCase):
         self.assertEqual(len(result), 2)
 
     def test_driver_search(self):
-        response = self.client.get("/drivers/?filter=I")
+        response = self.client.get("/drivers/?username=I")
         self.assertEqual(response.status_code, 200)
         result = response.context["driver_list"]
 

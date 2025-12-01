@@ -44,15 +44,15 @@ class ManufacturerListView(LoginRequiredMixin, generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super(ManufacturerListView, self).get_context_data(**kwargs)
-        filter = self.request.GET.get("filter", "")
+        name = self.request.GET.get("name", "")
         context["search_form"] = ManufacturerNameSearchForm(
-            initial={"filter": filter}
+            initial={"name": name}
         )
         return context
 
     def get_queryset(self):
         queryset = Manufacturer.objects.all()
-        name = self.request.GET.get("filter")
+        name = self.request.GET.get("name")
         if name:
             return queryset.filter(name__icontains=name)
         return queryset
@@ -81,15 +81,15 @@ class CarListView(LoginRequiredMixin, generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super(CarListView, self).get_context_data(**kwargs)
-        filter = self.request.GET.get("filter", "")
+        model_name = self.request.GET.get("model_name", "")
         context["search_form"] = CarModelSearchForm(
-            initial={"filter": filter}
+            initial={"model_name": model_name}
         )
         return context
 
     def get_queryset(self):
         queryset = Car.objects.select_related("manufacturer")
-        model = self.request.GET.get("filter")
+        model = self.request.GET.get("model_name")
         if model:
             return queryset.filter(model__icontains=model)
         return queryset
@@ -122,15 +122,15 @@ class DriverListView(LoginRequiredMixin, generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super(DriverListView, self).get_context_data(**kwargs)
-        filter = self.request.GET.get("filter", "")
+        username = self.request.GET.get("username", "")
         context["search_form"] = DriverUsernameSearchForm(
-            initial={"filter": filter}
+            initial={"username": username}
         )
         return context
 
     def get_queryset(self):
         queryset = Driver.objects.all()
-        username = self.request.GET.get("filter")
+        username = self.request.GET.get("username")
         if username:
             return queryset.filter(username__icontains=username)
         return queryset
